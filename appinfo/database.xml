@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+	<charset>utf8</charset>
+	<table>
+		<name>*dbprefix*file_reports</name>
+		<declaration>
+            <field>
+                <name>id</name>
+                <type>integer</type>
+                <default>0</default>
+                <notnull>true</notnull>
+                <autoincrement>1</autoincrement>
+                <length>20</length>
+            </field>
+            <field>
+                <name>owner</name>
+                <type>text</type>
+                <notnull>true</notnull>
+                <length>64</length>
+            </field>
+            <field>
+                <name>reporter</name>
+                <type>text</type>
+                <notnull>true</notnull>
+                <length>64</length>
+            </field>
+            <field>
+                <name>file_path</name>
+                <type>text</type>
+                <notnull>true</notnull>
+                <length>4000</length>
+            </field>
+            <field>
+                <name>reason</name>
+                <type>integer</type>
+                <notnull>true</notnull>
+                <length>2</length>
+            </field>
+            <field>
+                <name>timestamp</name>
+                <type>integer</type>
+                <default>0</default>
+                <length>20</length>
+            </field>
+            <field>
+                <name>ttl</name>
+                <type>integer</type>
+                <default>-1</default>
+                <length>11</length>
+            </field>
+            <field>
+                <name>status</name>
+                <type>integer</type>
+                <notnull>true</notnull>
+                <length>2</length>
+            </field>
+            <index>
+				<name>repoters_uid</name>
+				<field>
+					<name>reporter</name>
+				</field>
+			</index>
+
+		</declaration>
+
+    </table>
+
+</database>

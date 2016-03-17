@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+    <id>files_report</id>
+    <name>Files Report</name>
+    <description>My first app</description>
+    <licence>AGPL</licence>
+    <author>eric</author>
+    <version>0.0.2</version>
+    <namespace>Files_Report</namespace>
+    <category>other</category>
+    <dependencies>
+        <owncloud min-version="8" />
+    </dependencies>
+</info>
