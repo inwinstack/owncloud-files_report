@@ -1,3 +1,6 @@
-#hello {
-	color: red;
+table.grid {
+	width: 100%;
 }
+
+table.grid th { height:2em; color:#999; }
+table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }

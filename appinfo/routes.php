@@ -19,8 +19,9 @@
  */
 return [
     'routes' => [
-	   ['name' => 'files_report#readReport', 'url' => '/', 'verb' => 'GET'],
+	   ['name' => 'filesreport#readReport', 'url' => '/', 'verb' => 'GET'],
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
-	   ['name' => 'files_report#sendReport', 'url' => '/sendReport', 'verb' => 'POST'],
+	   ['name' => 'filesreport#sendReport', 'url' => '/sendReport', 'verb' => 'POST'],
+	   ['name' => 'filesreport#returnReport', 'url' => '/returnReport', 'verb' => 'POST'],
     ]
 ];

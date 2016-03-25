@@ -30,16 +30,25 @@ class FilesReportController extends Controller {
 
     }
 
+    public function returnReport($id, $reason, $path, $owner) {
+        $status = $reason != 'cancel' ? Data::REPORT_STATE : Data::CANCEL_STATE;
+        $result = $this->data->updateReport($id, $status, $path, $owner);
+        
+        return new DataResponse(array('status' => $result));
+
+    }
+
+
     /**
      * @NoCSRFRequired
       **/
 
     public function readReport() {
-       $reports = $this->data->readReport();
-       file_put_contents('123.txt', print_r($reports,true));
-       
-       return new TemplateResponse('files_report', 'part.content', array('reports' => $reports));
-    
+        $reports = $this->data->readReport();
+
+        if($reports != 'error') {
+            return new TemplateResponse('files_report', 'main', array('reports' => $reports));
+        }
     }
 
 

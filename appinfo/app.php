@@ -20,7 +20,7 @@ if(\OC_User::isAdminuser(\OC_User::getUser())) {
         'order' => 10,
 
         // the route that will be shown on startup
-        'href' => \OCP\Util::linkToRoute('files_report.files_report.readReport'),
+        'href' => \OCP\Util::linkToRoute('files_report.filesreport.readReport'),
 
         // the icon that will be shown in the navigation
         // this file needs to exist in img/

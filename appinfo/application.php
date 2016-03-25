@@ -31,16 +31,19 @@ class Application extends App {
 	public function __construct (array $urlParams = array()) {
 		parent::__construct('files_report', $urlParams);
 		$container = $this->getContainer();
+        
 
-		/**
-		 * Activity Services
-		 */
+        $container->registerService('ActivityApplication', function($c){
+                return new \OCA\Activity\AppInfo\Application();
+        });
+
 		$container->registerService('ReportData', function(IContainer $c) {
 			/** @var \OC\Server $server */
 			$server = $c->query('ServerContainer');
 			return new Data(
 				$server->getDatabaseConnection(),
-				$server->getUserSession()
+				$server->getUserSession(),
+                $c->query('ActivityApplication')->getContainer()->query('ActivityData')
 			);
 		});
 
