@@ -105,8 +105,8 @@ class Data extends Constants {
 
         $this->activityData->send($event);
         
-        $latestSend = time() + (60*10);//after 10min send email
-	    $this->activityData->storeMail($event, $latestSend);
+        //$latestSend = time() + (60*10);//after 10min send email
+	    //$this->activityData->storeMail($event, $latestSend);
 
     }
 
