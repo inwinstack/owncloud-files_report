@@ -47,6 +47,11 @@ class Application extends App {
 			);
 		});
 
+         $container->registerService('FilesReportL10N', function(IContainer $c) {
+			return $c->query('ServerContainer')->getL10N('files_report');
+		});
+
+
 		$container->registerService('FilesReportController', function(IContainer $c) {
 			/** @var \OC\Server $server */
 			$server = $c->query('ServerContainer');
