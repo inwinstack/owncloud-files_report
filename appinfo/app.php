@@ -33,3 +33,12 @@ if(\OC_User::isAdminuser(\OC_User::getUser())) {
 }
 
 \OCA\Files_Report\Hooks::connectHooks();
+
+\OC::$server->getActivityManager()->registerExtension(function() {
+    return new \OCA\Files_Report\Activity(
+        \OC::$server->query('L10NFactory'),
+        \OC::$server->getURLGenerator(),
+        \OC::$server->getActivityManager()
+    );
+});
+
