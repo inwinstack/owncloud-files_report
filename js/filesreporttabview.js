@@ -15,6 +15,7 @@
             '<input type="radio" name="reportMsg" value="1">{{reportMsg1}}<br>' +
             '<input type="radio" name="reportMsg" value="2">{{reportMsg2}}<br>' +
             '<input type="radio" name="reportMsg" value="3">{{reportMsg3}}<br>' +
+            '<input type="radio" name="reportMsg" value="4">{{reportMsg4}}<br>' +
             '<input type="submit" id="FileReportSend" value="{{submit}}">';
 ;
 	var Files_ReportTabView = OCA.Files.DetailTabView.extend({
@@ -42,6 +43,7 @@
             reportId = $('input[name=reportMsg]:checked').val();
 
             this.reportmodel.sendReport(filePath, shareOwner, reportId);
+            OC.Notification.showTemporary(t('files_report', "Your report will be send to administractor."));
         },
         
         template: function(data) {
@@ -53,7 +55,7 @@
 		},
 	
         getLabel: function(){
-            return t('filereports', 'Reports');
+            return t('files_report', 'Reports');
         },
 
 		/**
@@ -61,7 +63,11 @@
 		 */
 		render: function() {
 			this.$el.html(this.template({
-				submit: t('files_report', 'submit'),
+                reportMsg1: t('files_report', 'Include bad words or graphs.'),
+                reportMsg2: t('files_report', 'This is a uncomfortable file.'),
+                reportMsg3: t('files_report', "I think it shouldn't be on custum cloud."),
+                reportMsg4: t('files_report', "It's spam file."),
+				submit: t('files_report', 'Submit'),
 			}));
 		},
 
@@ -86,6 +92,5 @@
 
 
 	OCA.Files_Reports = OCA.Files_Reports || {};
-
 	OCA.Files_Reports.Files_ReportTabView = Files_ReportTabView;
 })();
