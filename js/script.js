@@ -14,11 +14,34 @@
                 }
             });
         },
+        download: function (owner, filePath) {
+            return $.ajax({
+                method: 'GET',
+                url: OC.generateUrl('apps/files_report/download'),
+                data: {
+                   owner: owner,
+                   filePath: filePath
+                },
+            });
+        }
+
     };
     
 
-    $(function(){
-    
+
+
+    $(function() {
+        $('tbody #download').each(function() {
+            var filePath = $(this).closest('tr').find('#filename').attr('data');
+            var owner = $(this).closest('tr').find('#owner').text();
+            
+            filePath = encodeURIComponent(filePath);
+            $(this).find('a').attr({
+                href:OC.linkToOCS('apps/files_report/api/v1')+'download?owner='+owner+'&filePath='+filePath
+            });
+
+        });
+
         $('tbody select').change(function(){
             var owner = $(this).closest('tr').find('#owner').text();
             var id = $(this).closest('tr').attr('id');

@@ -25,7 +25,9 @@
                         <option value='cancel'><?php p($l->t('Cancel')) ?></option>
                     </select>
                 </td>
-                <td id='download'></td>
+                <td id='download'>
+                    <a><?php p($l->t('Download')) ?></a>
+                </td>
 
               </tr>
        <?php     

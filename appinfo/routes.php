@@ -1,4 +1,7 @@
 <?php
+
+use OCP\API;
+
 /**
  * ownCloud - files_report
  *
@@ -17,6 +20,12 @@
  * The controller class has to be registered in the application.php file since
  * it's instantiated in there
  */
+
+API::register('get',
+		'/apps/files_report/api/v1/download',
+		array('\OCA\Files_Report\API\Download', 'forceDownloadFile'),
+		'files_report',API::GUEST_AUTH);
+
 return [
     'routes' => [
 	   ['name' => 'filesreport#readReport', 'url' => '/', 'verb' => 'GET'],
