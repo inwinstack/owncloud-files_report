@@ -1,16 +1,16 @@
 (function() {
     var filePath;
-    var shareOwner
+    var fileID;
 
 	var ReportModel = OC.Backbone.Model.extend({
         
-        sendReport: function(filePath, shareOwner, reportId) {
+        sendReport: function(filePath, id, reportId) {
             $.ajax({
                 method:'POST',
                 url: OC.generateUrl('/apps/files_report/sendReport'),
                 data: {
                     path : filePath,
-                    owner : shareOwner,
+                    id : id,
                     reportId : reportId 
                 },
             });
@@ -25,18 +25,21 @@
             }
         },
 
-        setShareOwner: function(fileInfo) {
-            this.shareOwner = fileInfo.attributes.shareOwner;
+        setFileID: function(fileInfo) {
+            this.fileID = fileInfo.id;
+        
         },
 
         getFilePath: function() {
             return this.filePath;
         },
 
-        getShareOwner: function() {
-            return this.shareOwner;
-        }
+        getFileID: function() {
+            return this.fileID;
+        },
 
+
+       
 	});
 
 	OCA.Files_Reports = OCA.Files_Reports || {};

@@ -23,8 +23,8 @@ class FilesReportController extends Controller {
      * @NoAdminRequired
      **/
 
-    public function sendReport($path, $owner, $reportId) {
-        $result = $this->data->send($path, $owner, $reportId);
+    public function sendReport($path, $id,  $reportId) {
+        $result = $this->data->send($path, $id, $reportId);
         
         return new DataResponse(array('status' => $result));
 
@@ -38,7 +38,7 @@ class FilesReportController extends Controller {
 
     }
 
-
+  
     /**
      * @NoCSRFRequired
       **/

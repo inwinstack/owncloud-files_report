@@ -39,10 +39,9 @@
 
         _sendReport: function(){
             filePath = this.reportmodel.getFilePath();
-            shareOwner = this.reportmodel.getShareOwner();
             reportId = $('input[name=reportMsg]:checked').val();
-
-            this.reportmodel.sendReport(filePath, shareOwner, reportId);
+            fileID = this.reportmodel.getFileID();
+            this.reportmodel.sendReport(filePath, fileID, reportId);
             OC.Notification.showTemporary(t('files_report', "Your report will be send to administractor."));
         },
         
@@ -85,7 +84,7 @@
             }
 
             this.reportmodel.setFilePath(fileInfo);
-            this.reportmodel.setShareOwner(fileInfo);
+            this.reportmodel.setFileID(fileInfo);
             return true;
 		}
 	});

@@ -8,7 +8,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\IDBConnection;
 use OCA\Files_Report\Constants;
-use OCA\Files_Report\ForceDelte;
+use OCA\Files_Report\ForceDelete;
 use OC\Activity\Event;
 
 class Data extends Constants {
@@ -23,9 +23,10 @@ class Data extends Constants {
         $this->activityData = $activityData;
     }
 
-    public function send( $path, $owner, $reason) {
+    public function send( $path, $id, $reason) {
         $user = $this->userSession->getUser();
         $filepath = $this->readfilePath($path);
+        $owner = $this->getOwner($id);
 
 		if ($user instanceof IUser) {
 			$user = $user->getUID();
@@ -53,8 +54,9 @@ class Data extends Constants {
 			Util::writeLog('FilesReport', DB::getErrorMessage($result), Util::ERROR);
             
             return 'error';
+
         } else {
-            if($status == Data::REPORT_STATE ) {
+            if($status == Data::REPORT_STATE) {
                 ForceDelete::forceDeleteOwnerFile($owner, $path);
                 $this->addActivityData($owner, array(substr($path, 5)));
             }
@@ -94,6 +96,16 @@ class Data extends Constants {
     
     }
 
+    private function getOwner($id) {
+        $query = $this->connection->prepare('SELECT id FROM *PREFIX*storages JOIN *PREFIX*filecache ON *PREFIX*filecache.storage = *PREFIX*storages.numeric_id WHERE *PREFIX*filecache.fileid = ?');
+
+        $query->execute(array($id));
+        $row = $query->fetch();
+
+        return substr($row['id'],6);
+
+    }
+
     private function addActivityData($user, $params) {
        $event = new Event();
        $event->setApp('files_report')
@@ -109,6 +121,31 @@ class Data extends Constants {
 	    //$this->activityData->storeMail($event, $latestSend);
 
     }
+
+     public function forceDownloadFile($owner, $filePath) {
+       //expect $owner = 'admin'
+       //expect $file = 'files/3/1.txt' | 'files/1.txt'
+       
+       file_put_contents('test.txt', $file.' '.$owner);
+       if ($file == '' || $owner == ''){
+           return false;
+       }
+       //\OC\Files\Filesystem::tearDown();
+       //\OC\Files\Filesystem::initMountPoints($owner);
+       \OC\Files\Filesystem::init($owner,"/$owner/files");
+       //$view = new \OC\Files\View("/$owner/files");
+       //$view = \OC\Files\Filesystem::getView();
+       
+       $dirs = explode("/", $file);
+       $rootDir = $dirs[0];
+       $filterFilePath = preg_replace("/^$rootDir\//",'',$file);
+       $dir = dirname($filterFilePath);
+       $fileName = basename($filterFilePath);
+       $files_list = array($fileName);
+       OC_Files::get($dir, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD');
+       
+    }
+
 
 }
 

@@ -10,8 +10,8 @@ class ForceDelete {
     * @return bool
     */
     public static function forceDeleteOwnerFile($owner,$file){
-       \OCP\Util::writeLog('Duncan','=$owner='.$owner, \OCP\Util::ERROR);
-       \OCP\Util::writeLog('Duncan','=$file='.$file, \OCP\Util::ERROR);
+       \OCP\Util::writeLog('Duncan','=$owner='.$owner, \OCP\Util::INFO);
+       \OCP\Util::writeLog('Duncan','=$file='.$file, \OCP\Util::INFO);
        //$file = files/1.txt
        //$file = files/2
        //$file = files/3/1.txt
@@ -29,22 +29,9 @@ class ForceDelete {
        \OC\Files\Filesystem::initMountPoints($owner);
        $view = new \OC\Files\View("/$owner/files");
        
-       // Step2: Unclock the file's lock.
-       $mount = $view->getMount($filterFilePath);
-       $storage = $mount->getStorage();
-       $id = $storage->getId();
-       $key = 'files/' . md5($id . '::' . trim($file, '/'));
-       $sql = 'UPDATE `*PREFIX*file_locks` SET `lock` = 0 WHERE `key` = ?';
-
-       $query = \OCP\DB::prepare($sql);
-       //$result = $query->execute(array($key));
-       if (!$query->execute(array($key))){
-           \OCP\Util::writeLog('module name',"When force clean file ($filterFilePath) lock status failed.", \OCP\Util::INFO);
-           return false;
-       }
-
+       
        if (!$view->unlockFile($filterFilePath,\OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE)){
-           \OCP\Util::writeLog('module name',"When force unlock file ($filterFilePath) failed.", \OCP\Util::INFO);
+           \OCP\Util::writeLog('module name',"When force unlock file ($filterFilePath) failed 2.", \OCP\Util::ERROR);
            return false;
        }
 
@@ -59,9 +46,10 @@ class ForceDelete {
 
        // Step5: Delete the file.
        if (!$view->unlink($filterFilePath) || $view->file_exists($filterFilePath)){
-           \OCP\Util::writeLog('module name',"When force delete $filterFilePath file failed.", \OCP\Util::INFO);
+           \OCP\Util::writeLog('module name',"When force delete $filterFilePath file failed 3.", \OCP\Util::EORROR);
            return false;
        }
+        
 
        return true;
     }
