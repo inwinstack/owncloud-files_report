@@ -52,7 +52,7 @@ class Activity implements IExtension {
 
 		$l = $this->getL10N($languageCode);
         if($text === self::SUBJECT_REPORTED_WITH) {
-            return (string) $l->t('Your file <strong>%1$s</strong> has been force deleted by administrator.',$params);
+            return (string) $l->t('Your file %1$s has been force deleted by administrator.',$params);
 
         }
 

@@ -10,7 +10,7 @@
    "spam file" : "垃圾檔案",
    "Cancel" : "取消",
    "A file has been <strong>force deleted</strong>." : "檔案已被<strong>強制刪除</strong>",
-   "Your file <strong>%1$s</strong> has been force deleted by administrator." : "你的檔案<strong>%1$s</strong>已被管理者強制刪除",
+   "Your file %1$s has been force deleted by administrator." : "你的檔案 %1$s 已被管理者強制刪除",
    "uncomfortable file" : "令人不舒服的檔案",
    "Files Report" : "檔案檢舉",
    "Download" : "下載"
