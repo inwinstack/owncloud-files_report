@@ -9,8 +9,9 @@ style('files_report', 'style');
 	    <?php print_unescaped($this->inc('part.navigation')); ?>
     </div>
 	<div id="app-content">
-		<div id="app-content-wrapper">
+		<div id="container">
 			<?php print_unescaped($this->inc('part.content')); ?>
 		</div>
+        <div id="loading_reports" class="icon-loading"></div>
 	</div>
 </div>

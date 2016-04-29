@@ -4,16 +4,23 @@
    "FileName" : "檔案名稱",
    "Action" : "操作",
    "Download" : "下載",
+   "please select a reason for deletion" : "請選擇一個刪除的原因",
    "include bad words or graphs" : "內含不雅文字或圖片",
    "uncomfortable file" : "令人不舒服的檔案",
    "should not be on custom cloud" : "不該出現在儲存應用服務上",
    "spam file" : "垃圾檔案",
    "Cancel" : "取消",
    "A file has been <strong>force deleted</strong>." : "檔案已被<strong>強制刪除</strong>",
-   "Your file %1$s has been force deleted by administrator." : "你的檔案 %1$s 已被管理者強制刪除",
+   "Your file <strong>%1$s</strong> has been force deleted by administrator because this file is <strong>%2$s</strong>." : "你的檔案 <strong>%1$s</strong> 因為此為 <strong>%2$s</strong> 而被管理者強制刪除",
    "uncomfortable file" : "令人不舒服的檔案",
-   "Files Report" : "檔案檢舉",
-   "Download" : "下載"
+   "not illegal file": "不符合違規的檔案",
+   "Files Report" : "檔案檢舉管理",
+   "Download" : "下載",
+   "Unaudited": "未審核",
+   "Audited": "已審核",
+   "Reason": "理由",
+   "Time": "時間",
+   "Result": "結果"
 
 
 },"pluralForm" :"nplurals=1; plural=0;"
