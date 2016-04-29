@@ -23,7 +23,7 @@ class Data extends Constants {
         $this->activityData = $activityData;
     }
 
-    public function send( $path, $id, $reason) {
+    public function send($path, $id, $reason) {
         $user = $this->userSession->getUser();
         $filepath = $this->readfilePath($path);
         $owner = $this->getOwner($id);
@@ -46,29 +46,72 @@ class Data extends Constants {
         return 'success';
         
     }
-    
-    public function updateReport($id, $status, $path, $owner) {
-        $query = $this->connection->prepare('UPDATE *PREFIX*file_reports SET status = ? WHERE id = ?');
-        $result = $query->execute(array($status, $id));
+
+    public function check($path, $id) {
+        $filepath = $this->readfilePath($path);
+        $owner = $this->getOwner($id);
+        
+        
+
+        $query = $this->connection->prepare('SELECT id, reason FROM *PREFIX*file_reports WHERE status = 0 AND owner = ? AND file_path = ?');
+        $result = $query->execute(array($owner, $filepath));
+
         if(DB::isError($result)) {
-			Util::writeLog('FilesReport', DB::getErrorMessage($result), Util::ERROR);
-            
+            Util::writeLog('FilesReport', DB::getErrorMessage($result), Util::ERROR);
+
             return 'error';
 
         } else {
-            if($status == Data::REPORT_STATE) {
-                ForceDelete::forceDeleteOwnerFile($owner, $path);
-                $this->addActivityData($owner, array(substr($path, 5)));
-            }
-            return 'success';
+            $row = $query->fetch();
+
+            return $row;
         }
+    
     }
 
-    public function readReport() {
+    public function cancel($id) {
+        
+        $query = $this->connection->prepare('DELETE FROM *PREFIX*file_reports WHERE id = ?');
+        $result = $query->execute(array((int)$id));
+
+        if(DB::isError($result)) {
+            Util::writeLog('FilesReport', DB::getErrorMessage($result), Util::ERROR);
+
+            return 'error';
+
+        }
+
+        return 'success';
+    
+    }
+
+    
+    public function updateReport($id, $status, $path, $owner, $reason) {
+        if($status == Data::REPORT_STATE) {
+            $state = ForceDelete::forceDeleteOwnerFile($owner, $path);
+            $state && $this->addActivityData($owner, array(substr($path, 5), $reason));
+        } else {
+            $reason = 4;
+        }
+
+        $query = $this->connection->prepare('UPDATE *PREFIX*file_reports SET status = ?, reason = ?, timestamp = ? WHERE id = ?');
+        $result = $query->execute(array($status, $reason, time(), $id));
+
+        if(DB::isError($result) || !$state) {
+
+            return 'error';
+        } else {
+
+            return 'success';
+        }
+
+    }
+
+    public function readReport($status) {
         $reports = array();
         
-        $query = $this->connection->prepare('SELECT id, owner, reporter, file_path, reason, status FROM *PREFIX*file_reports WHERE status = ?');
-        $result = $query->execute(array(self::PENDING_STATE));
+        $query = $this->connection->prepare('SELECT id, owner, reporter, file_path, reason, status,timestamp FROM *PREFIX*file_reports WHERE status = ?');
+        $result = $query->execute(array($status));
         if(DB::isError($result)) {
 			Util::writeLog('FilesReport', DB::getErrorMessage($result), Util::ERROR);
             
@@ -77,6 +120,8 @@ class Data extends Constants {
             while($row = $query->fetch()) {
                 $parts = split("/", $row['file_path']);
                 $row['file_name'] = $parts[count($parts) - 1];
+                $row['reason'] = self::$reason_arr[(int)$row['reason']];
+                $row['time'] = date('Y-m-d',$row['timestamp']);
                 array_push($reports, $row);
             
             }

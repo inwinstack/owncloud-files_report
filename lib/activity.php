@@ -6,8 +6,9 @@ use OCP\Activity\IManager;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\IL10N;
+use OCA\Files_Report\Constants;
 
-class Activity implements IExtension {
+class Activity extends Constants implements IExtension {
     const SUBJECT_REPORTED_WITH = 'reported_with';
     const TYPE_REPORTED = 'reported';
 
@@ -45,14 +46,14 @@ class Activity implements IExtension {
     }
 
     public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
-        file_put_contents('test',$app,FILE_APPEND);
 		if ($app !== 'files_report') {
 			return false;
 		}
 
 		$l = $this->getL10N($languageCode);
         if($text === self::SUBJECT_REPORTED_WITH) {
-            return (string) $l->t('Your file %1$s has been force deleted by administrator.',$params);
+            $params[1] = $l->t(self::$reason_arr[(int) $params[1]]);
+            return (string) $l->t('Your file <strong>%1$s</strong> has been force deleted by administrator because this file is <strong>%2$s</strong>.',$params);
 
         }
 
