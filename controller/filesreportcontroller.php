@@ -30,12 +30,44 @@ class FilesReportController extends Controller {
 
     }
 
-    public function returnReport($id, $reason, $path, $owner) {
-        $status = $reason != 'cancel' ? Data::REPORT_STATE : Data::CANCEL_STATE;
-        $result = $this->data->updateReport($id, $status, $path, $owner);
+    /**
+     * @NoAdminRequired
+     **/
+
+    public function checkReport($path, $id) {
+        $result = $this->data->check($path, $id);
+        
+        return new DataResponse(array('reported' => $result));
+
+    }
+
+     /**
+     * @NoAdminRequired
+     **/
+
+    public function cancelReport($id) {
+        $result = $this->data->cancel($id);
         
         return new DataResponse(array('status' => $result));
 
+    }
+
+
+
+    public function returnReport($id, $reason, $path, $owner) {
+        $status = $reason != 'legal' ? Data::REPORT_STATE : Data::CANCEL_STATE;
+        $result = $this->data->updateReport($id, $status, $path, $owner, $reason);
+        
+        return new DataResponse(array('status' => $result));
+
+    }
+    
+    public function getReport($status) {
+        $reports = $this->data->readReport($status);
+
+        if($reports != 'error') {
+            return new DataResponse( array('reports' => $reports));
+        }
     }
 
   
@@ -44,7 +76,7 @@ class FilesReportController extends Controller {
       **/
 
     public function readReport() {
-        $reports = $this->data->readReport();
+        $reports = $this->data->readReport(Data::PENDING_STATE);
 
         if($reports != 'error') {
             return new TemplateResponse('files_report', 'main', array('reports' => $reports));

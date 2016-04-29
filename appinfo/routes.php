@@ -29,8 +29,11 @@ API::register('get',
 return [
     'routes' => [
 	   ['name' => 'filesreport#readReport', 'url' => '/', 'verb' => 'GET'],
+	   ['name' => 'filesreport#getReport', 'url' => '/getReport', 'verb' => 'GET'],
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
 	   ['name' => 'filesreport#sendReport', 'url' => '/sendReport', 'verb' => 'POST'],
 	   ['name' => 'filesreport#returnReport', 'url' => '/returnReport', 'verb' => 'POST'],
+	   ['name' => 'filesreport#checkReport', 'url' => '/checkReport', 'verb' => 'POST'],
+	   ['name' => 'filesreport#cancelReport', 'url' => '/cancelReport', 'verb' => 'POST'],
     ]
 ];
