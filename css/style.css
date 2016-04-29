@@ -3,4 +3,10 @@ table.grid {
 }
 
 table.grid th { height:2em; color:#999; }
-table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
+table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; height:39px; }
+
+#loading_reports {
+	height: 50px;
+	margin: 0 auto;
+	padding: 20px;
+}
