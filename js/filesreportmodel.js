@@ -5,7 +5,7 @@
 	var ReportModel = OC.Backbone.Model.extend({
         
         sendReport: function(filePath, id, reportId) {
-            $.ajax({
+            return $.ajax({
                 method:'POST',
                 url: OC.generateUrl('/apps/files_report/sendReport'),
                 data: {
@@ -15,6 +15,29 @@
                 },
             });
         },
+
+        checkReport: function(filePath, id) {
+            return $.ajax({
+                method:'POST',
+                url: OC.generateUrl('/apps/files_report/checkReport'),
+                async: false,
+                data: {
+                    path : filePath,
+                    id : id,
+                },
+            });
+        },
+
+        cancelReport: function(id) {
+            return $.ajax({
+                method: 'POST',
+                url: OC.generateUrl('/apps/files_report/cancelReport'),
+                data: {
+                    id: id
+                }
+            });
+        },
+
 
         setFilePath: function(fileInfo) {
             if(fileInfo.attributes.path == '/') {
